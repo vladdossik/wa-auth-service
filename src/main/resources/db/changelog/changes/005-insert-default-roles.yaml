@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: 5-insert-default-roles
+      author: godiluck
+      changes:
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: name
+                  value: "USER"
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: name
+                  value: "ADMIN"
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: name
+                  value: "PREMIUM_USER"
