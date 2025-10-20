@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 public class JwtService {
-
     private final SecretKey jwtAccessSecret;
     private final SecretKey jwtRefreshSecret;
     private final long expirationTime;
@@ -102,10 +101,6 @@ public class JwtService {
 
     public Claims getAccessClaims(@NonNull String token) {
         return getClaims(token, jwtAccessSecret);
-    }
-
-    public Claims getRefreshClaims(@NonNull String token) {
-        return getClaims(token, jwtRefreshSecret);
     }
 
     public Claims getClaims(@NonNull String token, @NonNull SecretKey secret) {

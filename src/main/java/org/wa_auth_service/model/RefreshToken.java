@@ -17,7 +17,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 
 @Entity
 @Table(name = "refresh_tokens")
@@ -40,13 +41,13 @@ public class RefreshToken {
     private String token;
 
     @Column(name = "expires_at", nullable = false)
-    private Instant expiresAt;
+    private OffsetDateTime expiresAt;
 
     @Column(name = "created_at", updatable = false)
-    private Instant createdAt;
+    private OffsetDateTime createdAt;
 
     @PrePersist
     public void prePersist() {
-        createdAt = Instant.now();
+        createdAt = OffsetDateTime.now(ZoneOffset.UTC);
     }
 }

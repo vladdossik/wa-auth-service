@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.wa_auth_service.model.jwt.JwtRequest;
 import org.wa_auth_service.model.jwt.JwtResponse;
 import org.wa_auth_service.model.jwt.RefreshJwtRequest;
-import org.wa_auth_service.service.AuthService;
+import org.wa_auth_service.service.impl.AuthServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final AuthService authService;
+    private final AuthServiceImpl authService;
 
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest authRequest) throws AuthException {

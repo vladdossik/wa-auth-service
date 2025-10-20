@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 2-create-user-table
+      id: 2025.10.16_002_create_user_table
       author: givan3819@gmail.com
       changes:
         - createTable:

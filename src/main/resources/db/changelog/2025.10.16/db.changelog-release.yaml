@@ -1,11 +1,11 @@
 databaseChangeLog:
   - include:
-      file: db/changelog/2025.10.16/001-create-enums.yaml
+      file: db/changelog/2025.10.16/001_create_enums.yaml
   - include:
-      file: db/changelog/2025.10.16/002-create-user-table.yaml
+      file: db/changelog/2025.10.16/002_create_user_table.yaml
   - include:
-      file: db/changelog/2025.10.16/003-create-user-roles-table.yaml
+      file: db/changelog/2025.10.16/003_create_user_roles_table.yaml
   - include:
-      file: db/changelog/2025.10.16/004-create-user-roles-join-table.yaml
+      file: db/changelog/2025.10.16/004_create_user_roles_join_table.yaml
   - include:
-      file: db/changelog/2025.10.16/005-insert-default-roles.yaml
+      file: db/changelog/2025.10.16/005_insert_default_roles.yaml

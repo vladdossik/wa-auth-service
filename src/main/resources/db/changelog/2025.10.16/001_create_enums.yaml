@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 1-create-enums
+      id: 2025.10.16_001_create_enums
       author: givan3819@gmail.com
       changes:
         - sql:

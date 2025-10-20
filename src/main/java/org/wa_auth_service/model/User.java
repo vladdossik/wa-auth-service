@@ -21,7 +21,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -61,20 +62,20 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
     @Column(name = "created_at", nullable = false, updatable = false)
-    private Instant createdAt;
+    private OffsetDateTime createdAt;
 
     @Column(name = "modified_at")
-    private Instant modifiedAt;
+    private OffsetDateTime modifiedAt;
 
     @PrePersist
     public void onCreate() {
-        this.createdAt = Instant.now();
-        this.modifiedAt = Instant.now();
+        this.createdAt = OffsetDateTime.now(ZoneOffset.UTC);
+        this.modifiedAt = OffsetDateTime.now(ZoneOffset.UTC);
         if (this.status == null) this.status = Status.PENDING;
     }
 
     @PreUpdate
     public void onUpdate() {
-        this.modifiedAt = Instant.now();
+        this.modifiedAt = OffsetDateTime.now(ZoneOffset.UTC);
     }
 }

@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 public class JwtAuthentication implements Authentication {
-
     private boolean authenticated;
     private String email;
     private String phone;

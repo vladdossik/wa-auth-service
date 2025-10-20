@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class JwtUtils {
-
     private static Set<String> getRoles(Claims claims) {
         List<?> rolesFromToken = claims.get("roles", List.class);
         if (rolesFromToken == null) return Set.of();
