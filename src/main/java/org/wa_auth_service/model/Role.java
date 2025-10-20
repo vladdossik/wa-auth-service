@@ -22,7 +22,6 @@ import org.springframework.security.core.GrantedAuthority;
 @AllArgsConstructor
 @Builder
 public class Role implements GrantedAuthority {
-
     @Id
     @SequenceGenerator(name = "role_seq", sequenceName = "role_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_seq")

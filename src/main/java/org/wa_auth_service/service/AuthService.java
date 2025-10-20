@@ -88,7 +88,7 @@ public class AuthService {
         String newAccessToken = jwtService.generateAccessToken(user);
         String newRefreshToken = jwtService.generateRefreshToken(user);
 
-        storedToken.setToken(newAccessToken);
+        storedToken.setToken(newRefreshToken);
         storedToken.setExpiresAt(Instant.now().plusMillis(refreshInterval));
         refreshTokenRepository.save(storedToken);
 

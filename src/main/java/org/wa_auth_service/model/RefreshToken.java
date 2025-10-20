@@ -27,7 +27,6 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RefreshToken {
-
     @Id
     @SequenceGenerator(name = "refresh_token_seq", sequenceName = "refresh_token_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "refresh_token_seq")

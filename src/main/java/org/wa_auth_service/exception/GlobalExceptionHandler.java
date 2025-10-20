@@ -11,6 +11,13 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(jakarta.security.auth.message.AuthException.class)
+    public ResponseEntity<Map<String, String>> handleAuthException(jakarta.security.auth.message.AuthException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+    }
+
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Map<String, String>> handleIllegalArgument(IllegalArgumentException ex) {
         Map<String, String> error = new HashMap<>();
