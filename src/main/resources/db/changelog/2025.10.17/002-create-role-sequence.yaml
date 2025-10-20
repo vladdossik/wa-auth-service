@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2-create-role-sequence
+      author: givan3819@gmail.com
+      changes:
+        - createSequence:
+            sequenceName: role_seq
+            startValue: 1
+            incrementBy: 1

@@ -4,13 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.app</groupId>
+    <groupId>org.wa_auth_service</groupId>
     <artifactId>lissafit</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <properties>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
         <spring.boot.version>3.3.4</spring.boot.version>
         <jjwt.version>0.12.5</jjwt.version>
     </properties>

@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/2025.10.17/001-create-user-sequence.yaml
+  - include:
+      file: db/changelog/2025.10.17/002-create-role-sequence.yaml
+  - include:
+      file: db/changelog/2025.10.17/003-create-refresh-token-sequence.yaml
+  - include:
+      file: db/changelog/2025.10.17/004-create-refresh-tokens-table.yaml
