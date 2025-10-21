@@ -14,12 +14,12 @@ public class UserLookupServiceImpl implements UserLookupService {
 
     public User findUserById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("Пользователь не найден: " + id));
+                .orElseThrow(() -> new UserNotFoundException(id.toString()));
     }
 
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException("Пользователь не найден: " + email));
+                .orElseThrow(() -> new UserNotFoundException(email));
     }
 
     public boolean existsByPhone(String phone) {

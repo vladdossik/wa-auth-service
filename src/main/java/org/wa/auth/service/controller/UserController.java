@@ -1,5 +1,6 @@
 package org.wa.auth.service.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.wa.auth.service.dto.UserCreateDto;
 import org.wa.auth.service.dto.UserUpdateDto;
@@ -25,7 +26,7 @@ public class UserController {
     private final UserServiceImpl userService;
 
     @PostMapping
-    public ResponseEntity<UserDto> createUser(@RequestBody UserCreateDto dto) {
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserCreateDto dto) {
         return ResponseEntity.ok(userService.createUser(dto));
     }
 
@@ -40,12 +41,12 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable("id") Long id, @RequestBody UserUpdateDto dto) {
+    public ResponseEntity<UserDto> updateUser(@PathVariable("id") Long id, @Valid @RequestBody UserUpdateDto dto) {
         return ResponseEntity.ok(userService.updateUser(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<UserDto> deleteUserById(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deleteUserById(@PathVariable("id") Long id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }

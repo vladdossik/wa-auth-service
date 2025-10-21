@@ -51,7 +51,6 @@ public class JwtService {
                 .claim("roles", user.getRoles().stream()
                         .map(Role::getName)
                         .collect(Collectors.toList()))
-                .claim("phone", user.getPhone())
                 .compact();
     }
 
@@ -66,7 +65,6 @@ public class JwtService {
                 .claim("roles", user.getRoles().stream()
                         .map(Role::getName)
                         .collect(Collectors.toList()))
-                .claim("phone", user.getPhone())
                 .compact();
     }
 

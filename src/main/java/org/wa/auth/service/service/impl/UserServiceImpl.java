@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.wa.auth.service.dto.UserCreateDto;
 import org.wa.auth.service.dto.UserUpdateDto;
 import org.wa.auth.service.dto.UserDto;
+import org.wa.auth.service.exception.RoleNotFoundException;
 import org.wa.auth.service.mapper.UserMapper;
 import org.wa.auth.service.model.Role;
 import org.wa.auth.service.model.RoleEnum;
@@ -35,7 +36,6 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public UserDto createUser(UserCreateDto dto) {
-        userValidationService.validatePhone(dto.getPhone());
         userValidationService.validateUniqueUser(dto.getPhone(), dto.getEmail());
 
         Role userRole = roleRepository.findByName(RoleEnum.USER);
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public UserDto updateUser(Long id, UserUpdateDto dto) {
-        userValidationService.validatePhone(dto.getPhone());
+        userValidationService.validateUniqueUser(dto.getPhone(), dto.getEmail());
 
         User user = userLookupService.findUserById(id);
 
@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
                     .map(roleName -> {
                         Role role = roleRepository.findByName(roleName);
                         if (role == null) {
-                            throw new RuntimeException("Роль не найдена: " + roleName);
+                            throw new RoleNotFoundException("Роль не найдена: " + roleName);
                         }
                         return role;
                     })

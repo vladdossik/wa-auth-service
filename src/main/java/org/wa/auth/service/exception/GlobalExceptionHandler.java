@@ -14,6 +14,11 @@ public class GlobalExceptionHandler {
 
     private final ErrorMapper errorMapper;
 
+    @ExceptionHandler(RoleNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleAuthException(RoleNotFoundException ex) {
+        return buildResponse(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(UserAuthException.class)
     public ResponseEntity<ErrorResponse> handleAuthException(UserAuthException ex) {
         return buildResponse(ex.getMessage(), HttpStatus.UNAUTHORIZED);

@@ -11,12 +11,6 @@ import org.wa.auth.service.service.UserValidationService;
 public class UserValidationServiceImpl implements UserValidationService {
     private final UserLookupService userLookupService;
 
-    public void validatePhone(String phone) {
-        if (phone != null && phone.length() > 11) {
-            throw new IllegalArgumentException("Номер телефона не может содержать более 11 символов");
-        }
-    }
-
     public void validateUniqueUser(String phone, String email) {
         if (phone != null && userLookupService.existsByPhone(phone)) {
             throw new UserAlreadyExistsException("Пользователь с таким телефоном уже существует: " + phone);

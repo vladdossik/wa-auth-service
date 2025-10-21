@@ -20,6 +20,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -49,7 +51,8 @@ public class User {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "user_status")
+    @Column(nullable = false)
+    @JdbcType(PostgreSQLEnumJdbcType.class)
     private StatusEnum status;
 
     @ManyToMany(fetch = FetchType.EAGER)

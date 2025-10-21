@@ -8,7 +8,8 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: BIGSERIAL
+                  type: BIGINT
+                  autoIncrement: true
                   constraints:
                     primaryKey: true
                     nullable: false
@@ -26,12 +27,12 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: password
-                  type: VARCHAR(100)
+                  type: VARCHAR(255)
                   constraints:
                     nullable: false
               - column:
                   name: status
-                  type: VARCHAR(20)
+                  type: user_status
                   defaultValue: 'PENDING'
               - column:
                   name: created_at
