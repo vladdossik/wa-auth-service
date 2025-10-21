@@ -1,4 +1,4 @@
-package org.wa.auth.service.dto;
+package org.wa.auth.service.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

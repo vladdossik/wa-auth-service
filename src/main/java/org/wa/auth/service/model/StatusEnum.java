@@ -1,5 +1,5 @@
 package org.wa.auth.service.model;
 
-public enum Status {
+public enum StatusEnum {
     PENDING, ACTIVE, BLOCKED, DELETED
 }

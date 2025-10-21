@@ -3,7 +3,7 @@ package org.wa.auth.service.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.http.HttpStatus;
-import org.wa.auth.service.dto.ErrorResponse;
+import org.wa.auth.service.model.ErrorResponse;
 
 import java.time.LocalDateTime;
 

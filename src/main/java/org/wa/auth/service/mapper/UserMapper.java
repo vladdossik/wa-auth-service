@@ -8,8 +8,9 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.wa.auth.service.dto.UserCreateDto;
 import org.wa.auth.service.dto.UserDto;
 import org.wa.auth.service.dto.UserUpdateDto;
-import org.wa.auth.service.model.User;
 import org.wa.auth.service.model.Role;
+import org.wa.auth.service.model.RoleEnum;
+import org.wa.auth.service.model.User;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
-    @Mapping(target = "roles", expression = "java(mapRolesToStrings(user.getRoles()))")
+    @Mapping(target = "roles", source = "roles")
     UserDto toDto(User user);
 
     @Mapping(target = "id", ignore = true)
@@ -32,7 +33,7 @@ public interface UserMapper {
     @Mapping(target = "password", ignore = true)
     void updateUserFromDto(UserUpdateDto dto, @MappingTarget User user);
 
-    default Set<String> mapRolesToStrings(Set<Role> roles) {
+    default Set<RoleEnum> mapRolesToEnums(Set<Role> roles) {
         if (roles == null) return null;
         return roles.stream()
                 .map(Role::getName)

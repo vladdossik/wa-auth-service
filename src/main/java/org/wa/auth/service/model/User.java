@@ -50,7 +50,7 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, columnDefinition = "user_status")
-    private Status status;
+    private StatusEnum status;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -71,7 +71,7 @@ public class User {
     public void onCreate() {
         this.createdAt = OffsetDateTime.now(ZoneOffset.UTC);
         this.modifiedAt = OffsetDateTime.now(ZoneOffset.UTC);
-        if (this.status == null) this.status = Status.PENDING;
+        if (this.status == null) this.status = StatusEnum.PENDING;
     }
 
     @PreUpdate

@@ -2,7 +2,8 @@ package org.wa.auth.service.config;
 
 import lombok.RequiredArgsConstructor;
 import org.wa.auth.service.model.Role;
-import org.wa.auth.service.model.Status;
+import org.wa.auth.service.model.RoleEnum;
+import org.wa.auth.service.model.StatusEnum;
 import org.wa.auth.service.model.User;
 import org.wa.auth.service.repository.RoleRepository;
 import org.wa.auth.service.repository.UserRepository;
@@ -25,12 +26,12 @@ public class AdminInitializer implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         if (userRepository.findByEmail("admin@admin.com").isEmpty()) {
-            Role adminRole = roleRepository.findByName("ADMIN");
+            Role adminRole = roleRepository.findByName(RoleEnum.ADMIN);
 
             User admin = User.builder()
                     .email("admin@admin.com")
                     .password(passwordEncoder.encode("admin"))
-                    .status(Status.ACTIVE)
+                    .status(StatusEnum.ACTIVE)
                     .roles(Set.of(adminRole))
                     .build();
 

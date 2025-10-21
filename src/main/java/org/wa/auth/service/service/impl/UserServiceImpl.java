@@ -7,7 +7,8 @@ import org.wa.auth.service.dto.UserUpdateDto;
 import org.wa.auth.service.dto.UserDto;
 import org.wa.auth.service.mapper.UserMapper;
 import org.wa.auth.service.model.Role;
-import org.wa.auth.service.model.Status;
+import org.wa.auth.service.model.RoleEnum;
+import org.wa.auth.service.model.StatusEnum;
 import org.wa.auth.service.model.User;
 import org.wa.auth.service.repository.RoleRepository;
 import org.wa.auth.service.repository.UserRepository;
@@ -37,14 +38,14 @@ public class UserServiceImpl implements UserService {
         userValidationService.validatePhone(dto.getPhone());
         userValidationService.validateUniqueUser(dto.getPhone(), dto.getEmail());
 
-        Role userRole = roleRepository.findByName("USER");
+        Role userRole = roleRepository.findByName(RoleEnum.USER);
         Set<Role> roles = new HashSet<>();
         roles.add(userRole);
 
         User user = userMapper.toEntity(dto);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setRoles(roles);
-        user.setStatus(Status.PENDING);
+        user.setStatus(StatusEnum.PENDING);
 
         return userMapper.toDto(userRepository.save(user));
     }

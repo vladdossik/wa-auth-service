@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.wa.auth.service.dto.ErrorResponse;
+import org.wa.auth.service.model.ErrorResponse;
 import org.wa.auth.service.mapper.ErrorMapper;
 
 @ControllerAdvice
