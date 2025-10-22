@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.wa.auth.service.dto.UserCreateDto;
 import org.wa.auth.service.dto.UserUpdateDto;
 import org.wa.auth.service.dto.UserDto;
-import org.wa.auth.service.service.impl.UserServiceImpl;
+import org.wa.auth.service.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     @PostMapping
     public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserCreateDto dto) {

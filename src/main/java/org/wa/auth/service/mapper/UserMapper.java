@@ -25,12 +25,16 @@ public interface UserMapper {
     @Mapping(target = "roles", ignore = true)
     @Mapping(target = "status", ignore = true)
     @Mapping(target = "password", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "modifiedAt", ignore = true)
     User toEntity(UserCreateDto dto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "roles", ignore = true)
     @Mapping(target = "password", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "modifiedAt", ignore = true)
     void updateUserFromDto(UserUpdateDto dto, @MappingTarget User user);
 
     default Set<RoleEnum> mapRolesToEnums(Set<Role> roles) {
