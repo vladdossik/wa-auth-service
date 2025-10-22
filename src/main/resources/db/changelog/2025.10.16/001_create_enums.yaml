@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2025.10.16_001_create_enums
+      author: givan3819@gmail.com
+      changes:
+        - sql:
+            sql: CREATE TYPE user_status AS ENUM ('PENDING', 'ACTIVE', 'BLOCKED', 'DELETED')
+        - sql:
+            sql: CREATE TYPE user_role AS ENUM ('USER', 'ADMIN', 'PREMIUM_USER')

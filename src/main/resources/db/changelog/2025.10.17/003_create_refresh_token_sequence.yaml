@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2025.10.17_003_create_refresh_token_sequence
+      author: givan3819@gmail.com
+      changes:
+        - createSequence:
+            sequenceName: refresh_token_seq
+            startValue: 1
+            incrementBy: 1

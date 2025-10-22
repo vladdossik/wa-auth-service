@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2025.10.16_005_insert_default_roles
+      author: givan3819@gmail.com
+      changes:
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: name
+                  value: "USER"
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: name
+                  value: "ADMIN"
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: name
+                  value: "PREMIUM_USER"

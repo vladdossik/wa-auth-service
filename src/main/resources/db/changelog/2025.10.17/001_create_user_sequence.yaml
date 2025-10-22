@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2025.10.17_001_create_user_sequence
+      author: givan3819@gmail.com
+      changes:
+        - createSequence:
+            sequenceName: user_seq
+            startValue: 1
+            incrementBy: 1

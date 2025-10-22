@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/2025.10.16/db.changelog-release.yaml
+  - include:
+      file: db/changelog/2025.10.17/db.changelog-release.yaml

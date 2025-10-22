@@ -1,0 +1,20 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2025.10.16_003_create_roles_table
+      author: givan3819@gmail.com
+      changes:
+        - createTable:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+                    unique: true
