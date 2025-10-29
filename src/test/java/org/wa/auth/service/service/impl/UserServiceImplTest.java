@@ -12,16 +12,13 @@ import org.wa.auth.service.dto.UserDto;
 import org.wa.auth.service.dto.UserUpdateDto;
 import org.wa.auth.service.exception.RoleNotFoundException;
 import org.wa.auth.service.mapper.UserMapper;
-import org.wa.auth.service.model.Role;
 import org.wa.auth.service.model.RoleEnum;
-import org.wa.auth.service.model.StatusEnum;
 import org.wa.auth.service.model.User;
 import org.wa.auth.service.repository.RoleRepository;
 import org.wa.auth.service.repository.UserRepository;
+import org.wa.auth.service.util.Initializer;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -51,45 +48,31 @@ public class UserServiceImplTest {
 
     private User user;
     private UserDto userDto;
+    private UserCreateDto createDto;
+    private UserUpdateDto updateDto;
 
     @BeforeEach
     void setUp() {
-        user = new User();
-        user.setId(1L);
-        user.setEmail("test@test.com");
-        user.setPhone("88007006050");
-        user.setPassword("encoded123");
-        user.setRoles(new HashSet<>());
-        user.setStatus(StatusEnum.ACTIVE);
-
-        userDto = new UserDto();
-        userDto.setId(1L);
-        userDto.setEmail("test@test.com");
-        userDto.setPhone("88007006050");
+        user = Initializer.createUser();
+        userDto = Initializer.createUserDto();
+        createDto = Initializer.createUserCreateDto();
+        updateDto = Initializer.createUserUpdateDto();
     }
 
     @Test
     void createUserSuccessTest() {
-        UserCreateDto dto = new UserCreateDto();
-        dto.setEmail("test@test.com");
-        dto.setPhone("88007006050");
-        dto.setPassword("12345");
-
-        Role role = new Role();
-        role.setName(RoleEnum.USER);
-
-        when(roleRepository.findByName(RoleEnum.USER)).thenReturn(role);
-        when(userMapper.toEntity(dto)).thenReturn(user);
-        when(passwordEncoder.encode(dto.getPassword())).thenReturn("encoded123");
+        when(roleRepository.findByName(RoleEnum.USER)).thenReturn(Initializer.createRole(RoleEnum.USER));
+        when(userMapper.toEntity(createDto)).thenReturn(user);
+        when(passwordEncoder.encode(createDto.getPassword())).thenReturn("encoded123");
         when(userRepository.save(any(User.class))).thenReturn(user);
         when(userMapper.toDto(user)).thenReturn(userDto);
 
-        UserDto result = userService.createUser(dto);
+        UserDto result = userService.createUser(createDto);
 
         assertNotNull(result);
-        assertEquals(userDto.getEmail(), result.getEmail());
-        verify(userValidationService).validateUniqueUser(dto.getPhone(), dto.getEmail());
-        verify(passwordEncoder).encode(dto.getPassword());
+        assertEquals(createDto.getEmail(), result.getEmail());
+        verify(userValidationService).validateUniqueUser(createDto.getPhone(), createDto.getEmail());
+        verify(passwordEncoder).encode(createDto.getPassword());
         verify(userRepository).save(any(User.class));
     }
 
@@ -117,39 +100,27 @@ public class UserServiceImplTest {
 
     @Test
     void updateUserSuccessTest() {
-        UserUpdateDto dto = new UserUpdateDto();
-        dto.setPhone("81002003040");
-        dto.setEmail("newTest@test.com");
-        dto.setPassword("newPassword");
-        dto.setRoles(Set.of(RoleEnum.ADMIN));
-
-        Role adminRole = new Role();
-        adminRole.setName(RoleEnum.ADMIN);
-
         when(userLookupService.findUserById(1L)).thenReturn(user);
-        when(roleRepository.findByName(RoleEnum.ADMIN)).thenReturn(adminRole);
-        when(passwordEncoder.encode(dto.getPassword())).thenReturn("newEncoded123");
+        when(roleRepository.findByName(RoleEnum.ADMIN)).thenReturn(Initializer.createRole(RoleEnum.ADMIN));
+        when(passwordEncoder.encode(updateDto.getPassword())).thenReturn("newEncoded123");
         when(userRepository.save(any(User.class))).thenReturn(user);
         when(userMapper.toDto(user)).thenReturn(userDto);
 
-        UserDto result = userService.updateUser(1L, dto);
+        UserDto result = userService.updateUser(1L, updateDto);
 
         assertNotNull(result);
-        verify(userValidationService).validateUniqueUser(dto.getPhone(), dto.getEmail());
-        verify(passwordEncoder).encode(dto.getPassword());
+        verify(userValidationService).validateUniqueUser(updateDto.getPhone(), updateDto.getEmail());
+        verify(passwordEncoder).encode(updateDto.getPassword());
         verify(roleRepository).findByName(RoleEnum.ADMIN);
         verify(userRepository).save(any(User.class));
     }
 
     @Test
     void updateUserRoleNotFoundTest() {
-        UserUpdateDto dto = new UserUpdateDto();
-        dto.setRoles(Set.of(RoleEnum.ADMIN));
-
         when(userLookupService.findUserById(1L)).thenReturn(user);
         when(roleRepository.findByName(RoleEnum.ADMIN)).thenReturn(null);
 
-        assertThrows(RoleNotFoundException.class, () -> userService.updateUser(1L, dto));
+        assertThrows(RoleNotFoundException.class, () -> userService.updateUser(1L, updateDto));
     }
 
     @Test

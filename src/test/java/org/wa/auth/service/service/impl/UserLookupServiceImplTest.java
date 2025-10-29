@@ -9,6 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.wa.auth.service.exception.UserNotFoundException;
 import org.wa.auth.service.model.User;
 import org.wa.auth.service.repository.UserRepository;
+import org.wa.auth.service.util.Initializer;
 
 import java.util.Optional;
 
@@ -31,10 +32,7 @@ public class UserLookupServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        user = new User();
-        user.setId(1L);
-        user.setEmail("test@test.com");
-        user.setPhone("88007006050");
+        user = Initializer.createUser();
     }
 
     @Test
@@ -79,7 +77,9 @@ public class UserLookupServiceImplTest {
     void existsByPhoneTest() {
         when(userLookupService.existsByPhone("88007006050")).thenReturn(true);
 
-        assertTrue(userLookupService.existsByPhone("88007006050"));
+        boolean result = userLookupService.existsByPhone("88007006050");
+
+        assertTrue(result);
         verify(userRepository).existsByPhone("88007006050");
     }
 
@@ -87,7 +87,9 @@ public class UserLookupServiceImplTest {
     void existsByEmailTest() {
         when(userLookupService.existsByEmail("test@test.com")).thenReturn(true);
 
-        assertTrue(userLookupService.existsByEmail("test@test.com"));
+        boolean result = userLookupService.existsByEmail("test@test.com");
+
+        assertTrue(result);
         verify(userRepository).existsByEmail("test@test.com");
     }
 }

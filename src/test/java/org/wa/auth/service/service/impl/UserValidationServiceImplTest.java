@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.wa.auth.service.exception.UserAlreadyExistsException;
 import org.wa.auth.service.model.User;
+import org.wa.auth.service.util.Initializer;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
@@ -27,11 +28,7 @@ public class UserValidationServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        user = new User();
-        user.setId(1L);
-        user.setEmail("test@test.com");
-        user.setPhone("88007006050");
-        user.setPassword("password");
+        user = Initializer.createUser();
     }
 
     @Test

@@ -15,9 +15,8 @@ import org.wa.auth.service.model.jwt.JwtResponse;
 import org.wa.auth.service.repository.RefreshTokenRepository;
 import org.wa.auth.service.security.JwtService;
 import org.wa.auth.service.service.UserLookupService;
+import org.wa.auth.service.util.Initializer;
 
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -49,11 +48,8 @@ public class AuthServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        user = new User();
-        user.setEmail("test@test.com");
-        user.setPassword("encoded123");
-
-        jwtRequest = new JwtRequest("test@test.com", "password");
+        user = Initializer.createUser();
+        jwtRequest = Initializer.createJwtRequest();
     }
 
 
@@ -85,11 +81,7 @@ public class AuthServiceImplTest {
 
     @Test
     void accessTokenSuccessTest() throws UserAuthException {
-        RefreshToken storedToken = RefreshToken.builder()
-                .token("valid-refresh")
-                .user(user)
-                .expiresAt(OffsetDateTime.now(ZoneOffset.UTC).plusHours(1))
-                .build();
+        RefreshToken storedToken = Initializer.createValidRefreshToken(user);
 
         when(refreshTokenRepository.findByToken("valid-refresh")).thenReturn(Optional.of(storedToken));
         when(jwtService.validateRefreshToken("valid-refresh")).thenReturn(true);
@@ -111,11 +103,7 @@ public class AuthServiceImplTest {
 
     @Test
     void accessTokenExpiredTest() {
-        RefreshToken expiredToken = RefreshToken.builder()
-                .token("expired")
-                .user(user)
-                .expiresAt(OffsetDateTime.now(ZoneOffset.UTC).minusHours(1))
-                .build();
+        RefreshToken expiredToken = Initializer.createExpiredRefreshToken(user);
 
         when(refreshTokenRepository.findByToken("expired")).thenReturn(Optional.of(expiredToken));
 
@@ -124,11 +112,7 @@ public class AuthServiceImplTest {
 
     @Test
     void accessTokenValidityTest(){
-        RefreshToken invalidToken = RefreshToken.builder()
-                .token("invalid")
-                .user(user)
-                .expiresAt(OffsetDateTime.now(ZoneOffset.UTC).plusHours(1))
-                .build();
+        RefreshToken invalidToken = Initializer.createInvalidRefreshToken(user);
 
         when(refreshTokenRepository.findByToken("invalid")).thenReturn(Optional.of(invalidToken));
         when(jwtService.validateRefreshToken("invalid")).thenReturn(false);
@@ -138,11 +122,7 @@ public class AuthServiceImplTest {
 
     @Test
     void refreshTokenSuccessTest() throws UserAuthException {
-        RefreshToken storedToken = RefreshToken.builder()
-                .token("refresh-initial")
-                .user(user)
-                .expiresAt(OffsetDateTime.now(ZoneOffset.UTC).plusHours(1))
-                .build();
+        RefreshToken storedToken = Initializer.createRefreshInitialToken(user);
 
         when(refreshTokenRepository.findByToken("refresh-initial")).thenReturn(Optional.of(storedToken));
         when(jwtService.validateRefreshToken("refresh-initial")).thenReturn(true);

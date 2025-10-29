@@ -6,10 +6,10 @@ import org.mapstruct.factory.Mappers;
 import org.wa.auth.service.dto.UserCreateDto;
 import org.wa.auth.service.dto.UserDto;
 import org.wa.auth.service.dto.UserUpdateDto;
-import org.wa.auth.service.model.Role;
 import org.wa.auth.service.model.RoleEnum;
 import org.wa.auth.service.model.StatusEnum;
 import org.wa.auth.service.model.User;
+import org.wa.auth.service.util.Initializer;
 
 import java.util.Set;
 
@@ -24,18 +24,19 @@ public class UserMapperTest {
     private final UserMapper userMapper = Mappers.getMapper(UserMapper.class);
 
     private User user;
+    private UserCreateDto createDto;
+    private UserUpdateDto updateDto;
 
     @BeforeEach
     void setUp() {
-        user = new User();
-        user.setEmail("test@test.com");
-        user.setPhone("88007006050");
+        user = Initializer.createUser();
+        createDto = Initializer.createUserCreateDto();
+        updateDto = Initializer.createUserUpdateDto();
     }
 
     @Test
     void toDtoTest() {
-        user.setId(1L);
-        user.setRoles(Set.of(new Role(1L, RoleEnum.USER)));
+        user.setRoles(Set.of(Initializer.createRole(RoleEnum.USER)));
 
         UserDto userDto = userMapper.toDto(user);
 
@@ -47,7 +48,6 @@ public class UserMapperTest {
 
     @Test
     void toDtoNoRolesTest() {
-        user.setId(1L);
         user.setRoles(null);
 
         UserDto userDto = userMapper.toDto(user);
@@ -62,16 +62,12 @@ public class UserMapperTest {
 
     @Test
     void toEntityTest() {
-        UserCreateDto dto = new UserCreateDto();
-        dto.setEmail("test@test.com");
-        dto.setPhone("88007006050");
-
-        User user = userMapper.toEntity(dto);
+        User user = userMapper.toEntity(createDto);
 
         assertNull(user.getId());
         assertNull(user.getPassword());
-        assertEquals(dto.getEmail(), user.getEmail());
-        assertEquals(dto.getPhone(), user.getPhone());
+        assertEquals(createDto.getEmail(), user.getEmail());
+        assertEquals(createDto.getPhone(), user.getPhone());
     }
 
     @Test
@@ -81,38 +77,32 @@ public class UserMapperTest {
 
     @Test
     void updateUserFromDtoEmailTest() {
-        UserUpdateDto dto = new UserUpdateDto();
-        dto.setEmail("newTest@test.com");
-        dto.setPhone(null);
+        updateDto.setPhone(null);
 
-        userMapper.updateUserFromDto(dto, user);
+        userMapper.updateUserFromDto(updateDto, user);
 
         assertNotNull(user.getPhone());
-        assertEquals(dto.getEmail(), user.getEmail());
+        assertEquals(updateDto.getEmail(), user.getEmail());
     }
 
     @Test
     void updateUserFromDtoPhoneTest() {
-        UserUpdateDto dto = new UserUpdateDto();
-        dto.setEmail(null);
-        dto.setPhone("81002003040");
+        updateDto.setEmail(null);
 
-        userMapper.updateUserFromDto(dto, user);
+        userMapper.updateUserFromDto(updateDto, user);
 
         assertNotNull(user.getEmail());
-        assertEquals(dto.getPhone(), user.getPhone());
+        assertEquals(updateDto.getPhone(), user.getPhone());
     }
 
     @Test
     void updateUserFromDtoStatusTest() {
         user.setStatus(StatusEnum.PENDING);
+        updateDto.setStatus(StatusEnum.BLOCKED);
 
-        UserUpdateDto dto = new UserUpdateDto();
-        dto.setStatus(StatusEnum.BLOCKED);
+        userMapper.updateUserFromDto(updateDto, user);
 
-        userMapper.updateUserFromDto(dto, user);
-
-        assertEquals(dto.getStatus(), user.getStatus());
+        assertEquals(updateDto.getStatus(), user.getStatus());
     }
 
     @Test
