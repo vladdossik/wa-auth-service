@@ -75,7 +75,7 @@ public class UserLookupServiceImplTest {
 
     @Test
     void existsByPhoneTest() {
-        when(userLookupService.existsByPhone("88007006050")).thenReturn(true);
+        when(userRepository.existsByPhone("88007006050")).thenReturn(true);
 
         boolean result = userLookupService.existsByPhone("88007006050");
 
@@ -85,7 +85,7 @@ public class UserLookupServiceImplTest {
 
     @Test
     void existsByEmailTest() {
-        when(userLookupService.existsByEmail("test@test.com")).thenReturn(true);
+        when(userRepository.existsByEmail("test@test.com")).thenReturn(true);
 
         boolean result = userLookupService.existsByEmail("test@test.com");
 
