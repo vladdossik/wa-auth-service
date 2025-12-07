@@ -1,3 +1,4 @@
+[![Java CI with Maven](https://github.com/vladdossik/wa-auth-service/actions/workflows/build.yaml/badge.svg)](https://github.com/vladdossik/wa-auth-service/actions/workflows/build.yaml)
 ## Инструкция по разработке на нашем проекте
 
 - Ветки называем в соответствии с тем как называется задача 
