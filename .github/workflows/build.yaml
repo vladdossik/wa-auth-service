@@ -22,6 +22,3 @@ jobs:
         run: mvn -B clean compile --file pom.xml
       - name: Test
         run: mvn -B test --file pom.xml
-      - name: Deploy
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: mvn -B deploy --file pom.xml
