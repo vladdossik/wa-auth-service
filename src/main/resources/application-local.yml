@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=wa_auth_service_db
+    hikari:
+      username: postgres
+      password: 123
+      jdbc-url: jdbc:postgresql://localhost:5432/postgres?currentSchema=wa_auth_service_db
+      driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+  liquibase:
+    enabled: true
+    user: postgres
+    password: 123
+    default-schema: wa_auth_service_db
+    liquibase-schema: wa_auth_service_db
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+jwt:
+  secret:
+    access: ${JWT_SECRET_ACCESS:Y5ncOVqSI/HnJisBxE0TDsk/3cMP/FbwMDL+elybXkqsmpjNIqbjwCCOM8wTznVkqxeYZqf+ppsr4wzHNt8peA==}
+    refresh: ${JWT_SECRET_REFRESH:zL1HB3Pch05Avfynovxrf/kpF9O2m4NCWKJUjEp27s9J2jEG3ifiKCGylaZ8fDeoONSTJP/wAzKawB8F9rOMNg==}
+  expiration-ms: ${JWT_EXPIRATION_MS:3600000}
+  refresh-expiration-ms: ${JWT_REFRESH_EXPIRATION_MS:2592000000}
