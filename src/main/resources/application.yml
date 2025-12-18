@@ -3,6 +3,13 @@ spring:
     url: ${DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    properties:
+      spring.json.add.type.headers: false
 
 jwt:
   secret:
@@ -10,3 +17,15 @@ jwt:
     refresh: ${JWT_SECRET_REFRESH}
   expiration-ms: ${JWT_EXPIRATION_MS}
   refresh-expiration-ms: ${JWT_REFRESH_EXPIRATION_MS}
+
+server:
+  port: 8080
+
+kafka:
+  topics:
+    user-registered: user.registered
+
+encrypt:
+  secret: ${ENCRYPT_SECRET}
+  cipher-algorithm: "AES/GCM/NoPadding"
+  secret-key-algorithm: "AES"

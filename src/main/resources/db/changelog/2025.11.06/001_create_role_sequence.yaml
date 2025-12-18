@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 2025.10.17_002_create_role_sequence
+      id: 2025.11.06_001_create_role_sequence
       author: givan3819@gmail.com
       changes:
         - createSequence:

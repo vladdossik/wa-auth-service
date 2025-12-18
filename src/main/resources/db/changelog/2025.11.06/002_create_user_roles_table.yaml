@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 2025.10.16_003_create_roles_table
+      id: 2025.11.06_002_create_roles_table
       author: givan3819@gmail.com
       changes:
         - createTable:
@@ -9,6 +9,7 @@ databaseChangeLog:
               - column:
                   name: id
                   type: BIGINT
+                  defaultValueSequenceNext: role_seq
                   constraints:
                     primaryKey: true
                     nullable: false
