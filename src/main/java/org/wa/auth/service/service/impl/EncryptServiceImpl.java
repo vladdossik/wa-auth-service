@@ -18,12 +18,9 @@ public class EncryptServiceImpl implements EncryptService {
     @Value("${encrypt.cipher-algorithm}")
     private String cipherAlgorithm;
 
-    @Value("${encrypt.secret-key-algorithm}")
-    private String secretKeyAlgorithm;
-
     private final SecretKey secretKey;
 
-    public EncryptServiceImpl(@Value("${encrypt.secret}") String secret) {
+    public EncryptServiceImpl(@Value("${encrypt.secret}") String secret, @Value("${encrypt.secret-key-algorithm}") String secretKeyAlgorithm) {
         byte[] key = Arrays.copyOf(secret.getBytes(StandardCharsets.UTF_8), 32);
         this.secretKey = new SecretKeySpec(key, secretKeyAlgorithm);
     }
