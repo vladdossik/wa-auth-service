@@ -30,5 +30,5 @@ server:
 
 encrypt:
   secret: ${ENCRYPT_SECRET:i1Gzkvgov/+JojXyEEIoB8+/204Ow/22EWSQfuAaEwo=}
-  cipher-algorithm: "AES/GCM/NoPadding"
-  secret-key-algorithm: "AES"
+  cipher-algorithm: ${CIPHER_ALGORITHM:AES/GCM/NoPadding}
+  secret-key-algorithm: ${SECRET_KEY_ALGORITHM:AES}

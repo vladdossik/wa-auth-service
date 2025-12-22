@@ -20,6 +20,13 @@ public class UserEventProducer {
     public void sendUserRegisteredEvent(UserRegisteredDto userRegisteredEvent) {
         log.info("Sending USER_REGISTERED event: {}", userRegisteredEvent);
 
-        kafkaTemplate.send(userRegisteredTopic, userRegisteredEvent.getId().toString(), userRegisteredEvent);
+        kafkaTemplate.send(userRegisteredTopic, userRegisteredEvent)
+                .whenComplete((record, ex) -> {
+                    if (ex != null) {
+                        log.error("Error while sending USER_REGISTERED event: ", ex);
+                    } else {
+                        log.info("USER_REGISTERED event sent successfully to kafka. offset={}", record.getRecordMetadata().offset());
+                    }
+                });
     }
 }
