@@ -1,6 +1,6 @@
 databaseChangeLog:
   - include:
-      file: db/changelog/2025.12.25/001_remove_autoincrement_and_add_defaults.yaml
+      file: db/changelog/2025.12.25/001_create_id_sequences.yaml
   - include:
-      file: db/changelog/2025.12.25/002_add_defaults_for_tables_created_without_autoincrement.yaml
+      file: db/changelog/2025.12.25/002_add_sequence_defaults_to_id_columns.yaml
 

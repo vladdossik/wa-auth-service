@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
-      id: 2025.12.25_002_add_defaults_for_tables_created_without_autoincrement
-      author: ivan
+      id: 2025.12.25_002_add_sequence_defaults_to_id_columns
+      author: givan3819@gmail.com
       preConditions:
         - onFail: MARK_RAN
         - onError: MARK_RAN

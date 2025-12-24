@@ -1,9 +1,0 @@
-databaseChangeLog:
-  - include:
-      file: db/changelog/2025.11.06/001_create_role_sequence.yaml
-  - include:
-      file: db/changelog/2025.11.06/002_create_user_roles_table.yaml
-  - include:
-      file: db/changelog/2025.11.06/003_insert_default_roles.yaml
-  - include:
-      file: db/changelog/2025.11.06/004_create_user_roles_join_table.yaml
