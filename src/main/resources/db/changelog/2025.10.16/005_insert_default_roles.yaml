@@ -1,13 +1,7 @@
 databaseChangeLog:
   - changeSet:
-      id: 2025.11.06_003_insert_default_roles
+      id: 2025.10.16_005_insert_default_roles
       author: givan3819@gmail.com
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: MARK_RAN
-        - sqlCheck:
-            expectedResult: 0
-            sql: SELECT COUNT(*) FROM roles WHERE name IN ('USER', 'ADMIN', 'PREMIUM_USER')
       changes:
         - insert:
             tableName: roles
