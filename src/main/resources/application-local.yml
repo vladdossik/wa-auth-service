@@ -24,3 +24,11 @@ jwt:
     refresh: ${JWT_SECRET_REFRESH:zL1HB3Pch05Avfynovxrf/kpF9O2m4NCWKJUjEp27s9J2jEG3ifiKCGylaZ8fDeoONSTJP/wAzKawB8F9rOMNg==}
   expiration-ms: ${JWT_EXPIRATION_MS:3600000}
   refresh-expiration-ms: ${JWT_REFRESH_EXPIRATION_MS:2592000000}
+
+server:
+  port: 8080
+
+encrypt:
+  secret: ${ENCRYPT_SECRET:i1Gzkvgov/+JojXyEEIoB8+/204Ow/22EWSQfuAaEwo=}
+  cipher-algorithm: ${CIPHER_ALGORITHM:AES/GCM/NoPadding}
+  secret-key-algorithm: ${SECRET_KEY_ALGORITHM:AES}

@@ -11,10 +11,12 @@ import org.wa.auth.service.model.Role;
 import org.wa.auth.service.model.RoleEnum;
 import org.wa.auth.service.model.StatusEnum;
 import org.wa.auth.service.model.User;
+import org.wa.auth.service.producer.UserEventProducer;
 import org.wa.auth.service.repository.RoleRepository;
 import org.wa.auth.service.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.wa.auth.service.service.EncryptService;
 import org.wa.auth.service.service.UserLookupService;
 import org.wa.auth.service.service.UserService;
 import org.wa.auth.service.service.UserValidationService;
@@ -33,6 +35,8 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final UserLookupService userLookupService;
     private final UserValidationService userValidationService;
+    private final UserEventProducer userEventProducer;
+    private final EncryptService encryptService;
 
     @Transactional
     public UserDto createUser(UserCreateDto dto) {
@@ -47,7 +51,12 @@ public class UserServiceImpl implements UserService {
         user.setRoles(roles);
         user.setStatus(StatusEnum.PENDING);
 
-        return userMapper.toDto(userRepository.save(user));
+        User savedUser = userRepository.save(user);
+        UserDto userDto = userMapper.toDto(savedUser);
+
+        userEventProducer.sendUserRegisteredEvent(userMapper.toUserRegisteredDto(userDto, encryptService));
+
+        return userDto;
     }
 
     public List<UserDto> findAllUsers() {
