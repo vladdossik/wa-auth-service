@@ -1,4 +1,4 @@
-package org.wa.auth.service.kafka;
+package org.wa.auth.service.consumer;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

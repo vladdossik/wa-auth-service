@@ -4,19 +4,31 @@ spring:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
   kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
     consumer:
       group-id: auth-service-group
-    bootstrap-server:
-      server:
-        port: localhost:9092
 
 jwt:
   secret:
-    access: ENNBmE4TlxtYExaNse02RTIexWHOPxdSAq3RkAQJRhNwrAqbxbynXVpOiN6GnalGyNPS6dLj7nyr8qCoXgRBSD
-    refresh: ${jwt.refresh-expiration-ms}
-  expiration-ms: ${jwt.expiration-ms}
-  refresh-expiration-ms: ${jwt.refresh-expiration-ms}
+    access: ${JWT_SECRET_ACCESS}
+    refresh: ${JWT_SECRET_REFRESH}
+  expiration-ms: ${JWT_EXPIRATION_MS}
+  refresh-expiration-ms: ${JWT_REFRESH_EXPIRATION_MS}
+
+server:
+  port: 8080
 
 kafka:
   topics:
-    google-refresh-token: "google.refresh.token"
+    user-registered: user.registered
+    google-refresh-token: google.refresh.token
+
+encrypt:
+  secret: ${ENCRYPT_SECRET}
+  cipher-algorithm: ${CIPHER_ALGORITHM}
+  secret-key-algorithm: ${SECRET_KEY_ALGORITHM}

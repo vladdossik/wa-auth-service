@@ -1,4 +1,4 @@
-package org.wa.auth.service.kafka;
+package org.wa.auth.service.consumer;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -17,7 +17,7 @@ import java.util.Map;
 @Configuration
 public class KafkaConsumerConfig {
 
-    @Value("${spring.kafka.bootstrap-server.server.port}")
+    @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServer;
     @Value("${spring.kafka.consumer.group-id}")
     private String groupId;

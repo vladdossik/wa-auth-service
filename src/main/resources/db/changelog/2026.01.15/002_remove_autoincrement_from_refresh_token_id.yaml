@@ -1,9 +1,0 @@
-databaseChangeLog:
-  - changeSet:
-      id: 2026.01.15_002_remove_autoincrement_from_refresh_token_id
-      author: mihailov.pashka@yandex.ru
-      changes:
-        - modifyDataType:
-            tableName: refresh_tokens
-            columnName: id
-            newDataType: BIGINT
