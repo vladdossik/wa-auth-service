@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2026.01.15_001_remove_autoincrement_from_user_id
+      author: mihailov.pashka@yandex.ru
+      changes:
+        - modifyDataType:
+            tableName: users
+            columnName: id
+            newDataType: BIGINT

@@ -1,19 +1,16 @@
 package org.wa.auth.service.mapper;
 
 import org.mapstruct.BeanMapping;
-import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.wa.auth.service.dto.UserCreateDto;
 import org.wa.auth.service.dto.UserDto;
-import org.wa.auth.service.dto.UserRegisteredDto;
 import org.wa.auth.service.dto.UserUpdateDto;
 import org.wa.auth.service.model.Role;
 import org.wa.auth.service.model.RoleEnum;
 import org.wa.auth.service.model.User;
-import org.wa.auth.service.service.EncryptService;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -31,10 +28,6 @@ public interface UserMapper {
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "modifiedAt", ignore = true)
     User toEntity(UserCreateDto dto);
-
-    @Mapping(target = "phone", expression = "java(encryptService.encrypt(userDto.getPhone()))")
-    @Mapping(target = "email", expression = "java(encryptService.encrypt(userDto.getEmail()))")
-    UserRegisteredDto toUserRegisteredDto(UserDto userDto, @Context EncryptService encryptService);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "id", ignore = true)

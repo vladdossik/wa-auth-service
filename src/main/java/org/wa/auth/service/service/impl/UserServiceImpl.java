@@ -11,16 +11,13 @@ import org.wa.auth.service.model.Role;
 import org.wa.auth.service.model.RoleEnum;
 import org.wa.auth.service.model.StatusEnum;
 import org.wa.auth.service.model.User;
-import org.wa.auth.service.producer.UserEventProducer;
 import org.wa.auth.service.repository.RoleRepository;
 import org.wa.auth.service.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.wa.auth.service.service.EncryptService;
 import org.wa.auth.service.service.UserLookupService;
 import org.wa.auth.service.service.UserService;
 import org.wa.auth.service.service.UserValidationService;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -35,8 +32,6 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final UserLookupService userLookupService;
     private final UserValidationService userValidationService;
-    private final UserEventProducer userEventProducer;
-    private final EncryptService encryptService;
 
     @Transactional
     public UserDto createUser(UserCreateDto dto) {
@@ -51,12 +46,7 @@ public class UserServiceImpl implements UserService {
         user.setRoles(roles);
         user.setStatus(StatusEnum.PENDING);
 
-        User savedUser = userRepository.save(user);
-        UserDto userDto = userMapper.toDto(savedUser);
-
-        userEventProducer.sendUserRegisteredEvent(userMapper.toUserRegisteredDto(userDto, encryptService));
-
-        return userDto;
+        return userMapper.toDto(userRepository.save(user));
     }
 
     public List<UserDto> findAllUsers() {
@@ -100,5 +90,12 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(Long id) {
         User user = userLookupService.findUserById(id);
         userRepository.delete(user);
+    }
+
+    @Transactional
+    public void saveGoogleRefreshToken(final String email, final String refreshToken) {
+        User user = userLookupService.findUserByEmail(email);
+        user.setGoogleRefreshToken(refreshToken);
+        userRepository.save(user);
     }
 }
