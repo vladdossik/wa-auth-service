@@ -14,6 +14,7 @@ import org.wa.auth.service.exception.RoleNotFoundException;
 import org.wa.auth.service.mapper.UserMapper;
 import org.wa.auth.service.model.RoleEnum;
 import org.wa.auth.service.model.User;
+import org.wa.auth.service.producer.UserEventProducer;
 import org.wa.auth.service.repository.RoleRepository;
 import org.wa.auth.service.repository.UserRepository;
 import org.wa.auth.service.util.Initializer;
@@ -42,6 +43,8 @@ public class UserServiceImplTest {
     private UserLookupServiceImpl userLookupService;
     @Mock
     private UserValidationServiceImpl userValidationService;
+    @Mock
+    private UserEventProducer userEventProducer;
 
     @InjectMocks
     private UserServiceImpl userService;
@@ -74,6 +77,7 @@ public class UserServiceImplTest {
         verify(userValidationService).validateUniqueUser(createDto.getPhone(), createDto.getEmail());
         verify(passwordEncoder).encode(createDto.getPassword());
         verify(userRepository).save(any(User.class));
+        verify(userEventProducer).sendUserRegisteredEvent(any());
     }
 
     @Test

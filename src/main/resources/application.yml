@@ -11,7 +11,7 @@ spring:
       properties:
         spring.json.add.type.headers: false
     consumer:
-      group-id: auth-service-group
+      group-id: auth.service.group
 
 jwt:
   secret:
