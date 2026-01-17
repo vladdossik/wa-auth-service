@@ -26,11 +26,11 @@ public class GoogleRefreshTokenConsumer {
             String email = event.getEmail();
             String refreshToken = event.getRefreshToken();
 
-            log.debug("Received Google refresh token for user: {}", email);
+            log.info("Received Google refresh token for user: {}", email);
 
             userService.saveGoogleRefreshToken(email, refreshToken);
 
-            log.debug("Successfully processed Google refresh token for user: {}", event.getEmail());
+            log.info("Successfully processed Google refresh token for user: {}", event.getEmail());
 
         } catch (Exception e) {
             log.error("Failed to process Google refresh token event for user: {}", event.getEmail(), e);
