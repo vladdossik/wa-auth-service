@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2026.01.14_001_add_column_in_user_table
+      author: mihailov.pashka@yandex.ru
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: google_refresh_token
+                  type: VARCHAR(1000)
+                  constraints:
+                    nullable: true

@@ -12,4 +12,5 @@ public interface UserService {
     UserDto getUserById(Long id);
     UserDto updateUser(Long id, UserUpdateDto user);
     void deleteUser(Long id);
+    void saveGoogleRefreshToken(String email, String refreshToken);
 }

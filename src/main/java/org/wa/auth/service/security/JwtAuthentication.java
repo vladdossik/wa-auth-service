@@ -17,6 +17,7 @@ public class JwtAuthentication implements Authentication {
     private String email;
     private String phone;
     private Set<String> roles;
+    private String googleToken;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

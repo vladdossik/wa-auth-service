@@ -51,6 +51,7 @@ public class JwtService {
                 .claim("roles", user.getRoles().stream()
                         .map(Role::getName)
                         .collect(Collectors.toList()))
+                .claim("google_refresh_token", user.getGoogleRefreshToken())
                 .compact();
     }
 

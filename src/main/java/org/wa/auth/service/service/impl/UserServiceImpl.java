@@ -101,4 +101,11 @@ public class UserServiceImpl implements UserService {
         User user = userLookupService.findUserById(id);
         userRepository.delete(user);
     }
+
+    @Transactional
+    public void saveGoogleRefreshToken(final String email, final String refreshToken) {
+        User user = userLookupService.findUserByEmail(email);
+        user.setGoogleRefreshToken(refreshToken);
+        userRepository.save(user);
+    }
 }
