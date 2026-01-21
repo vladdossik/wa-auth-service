@@ -1,11 +1,11 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres?currentSchema=wa_auth_service_db
+    username: postgres
+    password: 123
+    driver-class-name: org.postgresql.Driver
     hikari:
-      username: postgres
-      password: 123
       jdbc-url: jdbc:postgresql://localhost:5432/postgres?currentSchema=wa_auth_service_db
-      driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: update

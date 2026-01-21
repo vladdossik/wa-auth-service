@@ -1,0 +1,104 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: auth-postgres
+    environment:
+      POSTGRES_DB: wa_auth_service_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - auth-local-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  kafka:
+    profiles: ["infra"]
+    image: confluentinc/cp-kafka:7.4.0
+    container_name: wa-kafka
+    environment:
+      KAFKA_NODE_ID: 1
+      CLUSTER_ID: M7dAsJ6xR5aC0UOiW2rupQ
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    ports:
+      - "9092:9092"
+      - "9093:9093"
+    volumes:
+      - kafka_data:/var/lib/kafka/data
+    networks:
+      - wa-local-network
+      - auth-local-network
+    healthcheck:
+      test: ["CMD-SHELL", "kafka-broker-api-versions --bootstrap-server localhost:9092 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: unless-stopped
+
+  kafka-ui:
+    profiles: ["infra"]
+    image: provectuslabs/kafka-ui:latest
+    container_name: wa-kafka-ui
+    depends_on:
+      - kafka
+    ports:
+      - "8090:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+    networks:
+      - wa-local-network
+      - auth-local-network
+    restart: unless-stopped
+
+  auth-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: auth-service-local
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_URL=jdbc:postgresql://postgres:5432/wa_auth_service_db
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=123
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - JWT_SECRET_ACCESS=${JWT_SECRET_ACCESS:-Y5ncOVqSI/HnJisBxE0TDsk/3cMP/FbwMDL+elybXkqsmpjNIqbjwCCOM8wTznVkqxeYZqf+ppsr4wzHNt8peA==}
+      - JWT_SECRET_REFRESH=${JWT_SECRET_REFRESH:-zL1HB3Pch05Avfynovxrf/kpF9O2m4NCWKJUjEp27s9J2jEG3ifiKCGylaZ8fDeoONSTJP/wAzKawB8F9rOMNg==}
+      - JWT_EXPIRATION_MS=${JWT_EXPIRATION_MS:-3600000}
+      - JWT_REFRESH_EXPIRATION_MS=${JWT_REFRESH_EXPIRATION_MS:-2592000000}
+      - ENCRYPT_SECRET=${ENCRYPT_SECRET:-i1Gzkvgov/+JojXyEEIoB8+/204Ow/22EWSQfuAaEwo=}
+      - CIPHER_ALGORITHM=${CIPHER_ALGORITHM:-AES/GCM/NoPadding}
+      - SECRET_KEY_ALGORITHM=${SECRET_KEY_ALGORITHM:-AES}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - auth-local-network
+      - wa-local-network
+
+volumes:
+  postgres_data:
+  kafka_data:
+
+networks:
+  auth-local-network:
+    driver: bridge
+  wa-local-network:
+    name: wa-local-network
+    driver: bridge
