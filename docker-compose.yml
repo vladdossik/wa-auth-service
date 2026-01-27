@@ -9,21 +9,23 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - DB_URL=${DB_URL}
-      - DB_USERNAME=${DB_USERNAME}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_SERVERS}
-      - JWT_SECRET_ACCESS=${JWT_SECRET_ACCESS}
-      - JWT_SECRET_REFRESH=${JWT_SECRET_REFRESH}
-      - JWT_EXPIRATION_MS=${JWT_EXPIRATION_MS}
-      - JWT_REFRESH_EXPIRATION_MS=${JWT_REFRESH_EXPIRATION_MS}
-      - ENCRYPT_SECRET=${ENCRYPT_SECRET}
-      - CIPHER_ALGORITHM=${CIPHER_ALGORITHM}
-      - SECRET_KEY_ALGORITHM=${SECRET_KEY_ALGORITHM}
+      DB_URL: ${DB_URL:-jdbc:postgresql://wa-postgres:5432/wa_db?currentSchema=wa_auth_service_db}
+      DB_URL_BASE: ${DB_URL_BASE:-jdbc:postgresql://wa-postgres:5432/wa_db}
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-123}
+      DB_SCHEMA: ${DB_SCHEMA:-wa_auth_service_db}
+      KAFKA_BOOTSTRAP_SERVERS: ${KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
+      JWT_SECRET_ACCESS: ${JWT_SECRET_ACCESS:-Y5ncOVqSI/HnJisBxE0TDsk/3cMP/FbwMDL+elybXkqsmpjNIqbjwCCOM8wTznVkqxeYZqf+ppsr4wzHNt8peA==}
+      JWT_SECRET_REFRESH: ${JWT_SECRET_REFRESH:-zL1HB3Pch05Avfynovxrf/kpF9O2m4NCWKJUjEp27s9J2jEG3ifiKCGylaZ8fDeoONSTJP/wAzKawB8F9rOMNg==}
+      JWT_EXPIRATION_MS: ${JWT_EXPIRATION_MS:-3600000}
+      JWT_REFRESH_EXPIRATION_MS: ${JWT_REFRESH_EXPIRATION_MS:-2592000000}
+      ENCRYPT_SECRET: ${ENCRYPT_SECRET:-i1Gzkvgov/+JojXyEEIoB8+/204Ow/22EWSQfuAaEwo=}
+      CIPHER_ALGORITHM: ${CIPHER_ALGORITHM:-AES/GCM/NoPadding}
+      SECRET_KEY_ALGORITHM: ${SECRET_KEY_ALGORITHM:-AES}
     networks:
-      - auth-network
+      - wa-local-network
     restart: unless-stopped
 
 networks:
-  auth-network:
-    driver: bridge
+  wa-local-network:
+    external: true
