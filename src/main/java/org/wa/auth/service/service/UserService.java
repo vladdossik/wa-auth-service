@@ -10,6 +10,7 @@ public interface UserService {
     UserDto createUser(UserCreateDto user);
     List<UserDto> findAllUsers();
     UserDto getUserById(Long id);
+    UserDto getUserByEmail(String email);
     UserDto updateUser(Long id, UserUpdateDto user);
     void deleteUser(Long id);
     void saveGoogleRefreshToken(String email, String refreshToken);

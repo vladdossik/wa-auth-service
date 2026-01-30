@@ -69,6 +69,12 @@ public class UserServiceImpl implements UserService {
         return userMapper.toDto(user);
     }
 
+    public UserDto getUserByEmail(String email) {
+        User user = userLookupService.findUserByEmail(email);
+
+        return userMapper.toDto(user);
+    }
+
     @Transactional
     public UserDto updateUser(Long id, UserUpdateDto dto) {
         userValidationService.validateUniqueUser(dto.getPhone(), dto.getEmail());
