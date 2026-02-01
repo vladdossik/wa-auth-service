@@ -30,8 +30,9 @@ public class SecurityConfig {
                         sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/v1/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/v1/users/**").permitAll()
+                        .requestMatchers("v1/sync/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/v1/users").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/v1/users/**").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.PUT, "/v1/users/**").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.DELETE, "/v1/users/**").hasRole("ADMIN")
                         .anyRequest().authenticated()

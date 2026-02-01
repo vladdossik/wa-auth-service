@@ -6,6 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.wa.auth.service.dto.SyncServiceDto;
 import org.wa.auth.service.dto.UserCreateDto;
 import org.wa.auth.service.dto.UserDto;
 import org.wa.auth.service.dto.UserRegisteredDto;
@@ -35,6 +36,8 @@ public interface UserMapper {
     @Mapping(target = "phone", expression = "java(encryptService.encrypt(userDto.getPhone()))")
     @Mapping(target = "email", expression = "java(encryptService.encrypt(userDto.getEmail()))")
     UserRegisteredDto toUserRegisteredDto(UserDto userDto, @Context EncryptService encryptService);
+
+    SyncServiceDto toSyncServiceDto(User user);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "id", ignore = true)

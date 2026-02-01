@@ -2,6 +2,7 @@ package org.wa.auth.service.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.wa.auth.service.dto.SyncServiceDto;
 import org.wa.auth.service.dto.UserCreateDto;
 import org.wa.auth.service.dto.UserUpdateDto;
 import org.wa.auth.service.dto.UserDto;
@@ -23,6 +24,7 @@ import org.wa.auth.service.service.UserValidationService;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -63,16 +65,25 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll().stream().map(userMapper::toDto).collect(Collectors.toList());
     }
 
+    public Map<Long, SyncServiceDto> findAll() {
+        return userRepository.findAll().stream().map(userMapper::toSyncServiceDto)
+                .filter(dto -> dto != null && dto.getId() != null)
+                .collect(Collectors.toMap(
+                        SyncServiceDto::getId,
+                        dto -> dto, (exist, replace) -> exist
+                ));
+    }
+
     public UserDto getUserById(Long id) {
         User user = userLookupService.findUserById(id);
 
         return userMapper.toDto(user);
     }
 
-    public UserDto getUserByEmail(String email) {
+    public SyncServiceDto getUserByEmail(String email) {
         User user = userLookupService.findUserByEmail(email);
 
-        return userMapper.toDto(user);
+        return userMapper.toSyncServiceDto(user);
     }
 
     @Transactional
