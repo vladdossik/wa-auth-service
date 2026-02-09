@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2026.02.05_001_add_indexes_in_user_table
+      author: mihailov.pashka@yandex.ru
+      changes:
+        - sql:
+            sql: CREATE INDEX idx_users_active_with_google_token
+                 ON users(status, google_refresh_token)
+                 WHERE status = 'ACTIVE' AND google_refresh_token IS NOT NULL

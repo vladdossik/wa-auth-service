@@ -33,6 +33,7 @@ public class AdminInitializer implements ApplicationRunner {
                     .password(passwordEncoder.encode("admin"))
                     .status(StatusEnum.ACTIVE)
                     .roles(Set.of(adminRole))
+                    .googleRefreshToken("googleRefreshToken")
                     .build();
 
             userRepository.save(admin);

@@ -17,5 +17,4 @@ public class UserDto {
     private String phone;
     private StatusEnum status;
     private Set<RoleEnum> roles;
-    private String googleRefreshToken;
 }
