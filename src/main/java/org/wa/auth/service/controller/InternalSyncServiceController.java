@@ -10,7 +10,7 @@ import reactor.core.publisher.Flux;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/internal/v1/sync")
+@RequestMapping("/v1/internal/sync")
 public class InternalSyncServiceController {
 
     private final UserService service;

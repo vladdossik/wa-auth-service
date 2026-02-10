@@ -3,6 +3,7 @@ package org.wa.auth.service.service.impl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -45,6 +46,8 @@ public class UserServiceImpl implements UserService {
     private final UserValidationService userValidationService;
     private final UserEventProducer userEventProducer;
     private final EncryptService encryptService;
+    @Value("${synchronization.page.size}")
+    private Integer pageSize;
 
     @Transactional
     public UserDto createUser(UserCreateDto dto) {
@@ -78,7 +81,7 @@ public class UserServiceImpl implements UserService {
                 (page, sink) -> {
                     try {
                         Page<User> userPage = userRepository.findActiveUsersWithGoogleToken(
-                                PageRequest.of(page, 1000, Sort.by("id"))
+                                PageRequest.of(page, pageSize, Sort.by("id"))
                         );
 
                         if (!userPage.hasContent()) {

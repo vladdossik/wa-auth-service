@@ -32,3 +32,7 @@ encrypt:
   secret: ${ENCRYPT_SECRET}
   cipher-algorithm: ${CIPHER_ALGORITHM}
   secret-key-algorithm: ${SECRET_KEY_ALGORITHM}
+
+synchronization:
+  page:
+    size: 1000
