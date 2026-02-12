@@ -3,8 +3,8 @@ package org.wa.auth.service.repository;
 import lombok.NonNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.wa.auth.service.model.StatusEnum;
 import org.wa.auth.service.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
@@ -18,6 +18,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     boolean existsByPhone(String phone);
 
-    @Query("SELECT u FROM User u WHERE u.status = 'ACTIVE' AND u.googleRefreshToken IS NOT NULL")
-    Page<User> findActiveUsersWithGoogleToken(@NonNull Pageable pageable);
+    Page<User> findUserByStatusAndGoogleRefreshTokenIsNotNull(StatusEnum status, @NonNull Pageable pageable);
 }

@@ -80,7 +80,8 @@ public class UserServiceImpl implements UserService {
                 () -> 0,
                 (page, sink) -> {
                     try {
-                        Page<User> userPage = userRepository.findActiveUsersWithGoogleToken(
+                        Page<User> userPage = userRepository.findUserByStatusAndGoogleRefreshTokenIsNotNull(
+                                StatusEnum.ACTIVE,
                                 PageRequest.of(page, pageSize, Sort.by("id"))
                         );
 

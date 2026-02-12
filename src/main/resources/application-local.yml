@@ -40,3 +40,7 @@ encrypt:
 kafka:
   topics:
     google-refresh-token: "google.refresh.token"
+
+synchronization:
+  page:
+    size: 1000
