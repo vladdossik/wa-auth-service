@@ -2,6 +2,13 @@ package org.wa.auth.service.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.wa.auth.service.dto.SyncServiceDto;
+import org.wa.auth.service.dto.SyncServicePaginatedDto;
 import org.wa.auth.service.dto.UserCreateDto;
 import org.wa.auth.service.dto.UserUpdateDto;
 import org.wa.auth.service.dto.UserDto;
@@ -20,13 +27,15 @@ import org.wa.auth.service.service.EncryptService;
 import org.wa.auth.service.service.UserLookupService;
 import org.wa.auth.service.service.UserService;
 import org.wa.auth.service.service.UserValidationService;
-
+import reactor.core.publisher.Flux;
+import java.time.Duration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
@@ -37,6 +46,8 @@ public class UserServiceImpl implements UserService {
     private final UserValidationService userValidationService;
     private final UserEventProducer userEventProducer;
     private final EncryptService encryptService;
+    @Value("${synchronization.page.size}")
+    private Integer pageSize;
 
     @Transactional
     public UserDto createUser(UserCreateDto dto) {
@@ -63,9 +74,53 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll().stream().map(userMapper::toDto).collect(Collectors.toList());
     }
 
+    public Flux<Object> streamAllUsers() {
+        log.info("Синхронизация активных пользователей с наличием google refresh token");
+        return Flux.generate(
+                () -> 0,
+                (page, sink) -> {
+                    try {
+                        Page<User> userPage = userRepository.findUserByStatusAndGoogleRefreshTokenIsNotNull(
+                                StatusEnum.ACTIVE,
+                                PageRequest.of(page, pageSize, Sort.by("id"))
+                        );
+
+                        if (!userPage.hasContent()) {
+                            sink.complete();
+                        }
+
+                        List<SyncServiceDto> dtoList = userPage.getContent().stream()
+                                .map(userMapper::toSyncServiceDto)
+                                .filter(dto -> dto != null && dto.getId() != null).toList();
+
+                        SyncServicePaginatedDto response = SyncServicePaginatedDto.builder()
+                                .users(dtoList)
+                                .currentPage(page)
+                                .totalPages(userPage.getTotalPages())
+                                .totalElements(userPage.getTotalElements())
+                                .hasNext(userPage.hasNext())
+                                .build();
+
+                        sink.next(response);
+
+                        if (!userPage.hasNext()) {
+                            sink.complete();
+                        }
+                        return page + 1;
+                    } catch (Exception e) {
+                        sink.error(e);
+                        return page;
+                    }
+                }
+        ).delayElements(Duration.ofMillis(100))
+                .onErrorResume(e -> {
+                    log.error("Ошибка при потоковой передаче", e);
+                    return Flux.empty();
+                });
+    }
+
     public UserDto getUserById(Long id) {
         User user = userLookupService.findUserById(id);
-
         return userMapper.toDto(user);
     }
 
