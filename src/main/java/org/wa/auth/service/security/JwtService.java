@@ -44,7 +44,8 @@ public class JwtService {
         Instant now = Instant.now();
         Date expirationDate = Date.from(now.plusMillis(expirationTime));
         return Jwts.builder()
-                .subject(user.getEmail())
+                .subject(user.getId().toString())
+                .claim("email", user.getEmail())
                 .issuedAt(Date.from(now))
                 .expiration(expirationDate)
                 .signWith(jwtAccessSecret)
@@ -59,7 +60,8 @@ public class JwtService {
         Instant now = Instant.now();
         Date expirationDate = Date.from(now.plusMillis(refreshInterval));
         return Jwts.builder()
-                .subject(user.getEmail())
+                .subject(user.getId().toString())
+                .claim("email", user.getEmail())
                 .issuedAt(Date.from(now))
                 .expiration(expirationDate)
                 .signWith(jwtRefreshSecret)
