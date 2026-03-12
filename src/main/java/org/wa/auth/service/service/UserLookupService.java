@@ -7,4 +7,5 @@ public interface UserLookupService {
     User findUserByEmail(String email);
     boolean existsByPhone(String phone);
     boolean existsByEmail(String email);
+    User findUserByExternalId(String externalId);
 }

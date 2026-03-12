@@ -19,4 +19,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByPhone(String phone);
 
     Page<User> findUserByStatusAndGoogleRefreshTokenIsNotNull(StatusEnum status, @NonNull Pageable pageable);
+
+    User findByExternalId(String externalId);
 }

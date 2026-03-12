@@ -1,5 +1,6 @@
 package org.wa.auth.service.util;
 
+import org.wa.auth.service.dto.SyncServiceDto;
 import org.wa.auth.service.dto.UserCreateDto;
 import org.wa.auth.service.dto.UserUpdateDto;
 import org.wa.auth.service.model.RefreshToken;
@@ -13,16 +14,19 @@ import org.wa.auth.service.model.jwt.JwtRequest;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.Set;
+import java.util.UUID;
 
 public class Initializer {
 
     public static User createUser() {
         User user = new User();
         user.setId(1L);
+        user.setExternalId(UUID.randomUUID().toString());
         user.setEmail("test@test.com");
         user.setPhone("88007006050");
         user.setPassword("encoded123");
         user.setStatus(StatusEnum.ACTIVE);
+        user.setGoogleRefreshToken("google");
 
         Role role = new Role();
         role.setId(1L);
@@ -34,7 +38,7 @@ public class Initializer {
 
     public static UserDto createUserDto() {
         UserDto dto = new UserDto();
-        dto.setId(1L);
+        dto.setId(UUID.randomUUID().toString());
         dto.setEmail("test@test.com");
         dto.setPhone("88007006050");
         dto.setRoles(Set.of(RoleEnum.USER));
@@ -100,5 +104,15 @@ public class Initializer {
                 .user(user)
                 .expiresAt(OffsetDateTime.now(ZoneOffset.UTC).plusHours(1))
                 .build();
+    }
+
+    public static SyncServiceDto createSyncServiceDto() {
+        SyncServiceDto dto = new SyncServiceDto();
+
+        dto.setId(UUID.randomUUID().toString());
+        dto.setEmail("test@test.com");
+        dto.setGoogleRefreshToken("google");
+
+        return dto;
     }
 }

@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2026.03.10_001_add_external_id_in_user_table
+      author: mihailov.pashka@yandex.ru
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: external_id
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+                    unique: true

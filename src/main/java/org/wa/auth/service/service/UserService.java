@@ -10,8 +10,8 @@ public interface UserService {
     UserDto createUser(UserCreateDto user);
     List<UserDto> findAllUsers();
     Flux<Object> streamAllUsers();
-    UserDto getUserById(Long id);
-    UserDto updateUser(Long id, UserUpdateDto user);
-    void deleteUser(Long id);
+    UserDto getUserById(String id);
+    UserDto updateUser(String id, UserUpdateDto user);
+    void deleteUser(String id);
     void saveGoogleRefreshToken(String email, String refreshToken);
 }

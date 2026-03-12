@@ -12,21 +12,30 @@ import org.wa.auth.service.service.UserLookupService;
 public class UserLookupServiceImpl implements UserLookupService {
     private final UserRepository userRepository;
 
+    @Override
     public User findUserById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id.toString()));
     }
 
+    @Override
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException(email));
     }
 
+    @Override
     public boolean existsByPhone(String phone) {
         return userRepository.existsByPhone(phone);
     }
 
+    @Override
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public User findUserByExternalId(String externalId) {
+        return userRepository.findByExternalId(externalId);
     }
 }

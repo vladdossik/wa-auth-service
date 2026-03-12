@@ -3,6 +3,7 @@ package org.wa.auth.service.mapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
+import org.wa.auth.service.dto.SyncServiceDto;
 import org.wa.auth.service.dto.UserCreateDto;
 import org.wa.auth.service.dto.UserDto;
 import org.wa.auth.service.dto.UserUpdateDto;
@@ -12,7 +13,6 @@ import org.wa.auth.service.model.User;
 import org.wa.auth.service.util.Initializer;
 
 import java.util.Set;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -26,12 +26,14 @@ public class UserMapperTest {
     private User user;
     private UserCreateDto createDto;
     private UserUpdateDto updateDto;
+    private SyncServiceDto syncServiceDto;
 
     @BeforeEach
     void setUp() {
         user = Initializer.createUser();
         createDto = Initializer.createUserCreateDto();
         updateDto = Initializer.createUserUpdateDto();
+        syncServiceDto = Initializer.createSyncServiceDto();
     }
 
     @Test
@@ -41,6 +43,7 @@ public class UserMapperTest {
         UserDto userDto = userMapper.toDto(user);
 
         assertNotNull(userDto);
+        assertEquals(user.getExternalId(), userDto.getId());
         assertEquals(user.getEmail(), userDto.getEmail());
         assertEquals(user.getPhone(), userDto.getPhone());
         assertTrue(userDto.getRoles().contains(RoleEnum.USER));
@@ -65,6 +68,7 @@ public class UserMapperTest {
         User user = userMapper.toEntity(createDto);
 
         assertNull(user.getId());
+        assertNull(user.getExternalId());
         assertNull(user.getPassword());
         assertEquals(createDto.getEmail(), user.getEmail());
         assertEquals(createDto.getPhone(), user.getPhone());
@@ -111,5 +115,14 @@ public class UserMapperTest {
 
         assertEquals("test@test.com", user.getEmail());
         assertEquals("88007006050", user.getPhone());
+    }
+
+    @Test
+    void toSyncServiceDtoTest() {
+        syncServiceDto = userMapper.toSyncServiceDto(user);
+
+        assertEquals(syncServiceDto.getId(), user.getExternalId());
+        assertEquals(syncServiceDto.getEmail(), user.getEmail());
+        assertEquals(syncServiceDto.getGoogleRefreshToken(), user.getGoogleRefreshToken());
     }
 }

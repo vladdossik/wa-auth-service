@@ -22,10 +22,12 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
+    @Mapping(target = "id", source = "externalId")
     @Mapping(target = "roles", source = "roles")
     UserDto toDto(User user);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "externalId", ignore = true)
     @Mapping(target = "roles", ignore = true)
     @Mapping(target = "status", ignore = true)
     @Mapping(target = "password", ignore = true)
@@ -33,14 +35,19 @@ public interface UserMapper {
     @Mapping(target = "modifiedAt", ignore = true)
     User toEntity(UserCreateDto dto);
 
+    @Mapping(target = "id", source = "id")
     @Mapping(target = "phone", expression = "java(encryptService.encrypt(userDto.getPhone()))")
     @Mapping(target = "email", expression = "java(encryptService.encrypt(userDto.getEmail()))")
     UserRegisteredDto toUserRegisteredDto(UserDto userDto, @Context EncryptService encryptService);
 
+    @Mapping(target = "id", source = "externalId")
+    @Mapping(target = "email", source = "email")
+    @Mapping(target = "googleRefreshToken", source = "googleRefreshToken")
     SyncServiceDto toSyncServiceDto(User user);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "externalId", ignore = true)
     @Mapping(target = "roles", ignore = true)
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
