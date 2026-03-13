@@ -5,13 +5,14 @@ import org.wa.auth.service.dto.UserDto;
 import org.wa.auth.service.dto.UserUpdateDto;
 import reactor.core.publisher.Flux;
 import java.util.List;
+import java.util.UUID;
 
 public interface UserService {
     UserDto createUser(UserCreateDto user);
     List<UserDto> findAllUsers();
     Flux<Object> streamAllUsers();
-    UserDto getUserById(String id);
-    UserDto updateUser(String id, UserUpdateDto user);
-    void deleteUser(String id);
+    UserDto getUserById(UUID id);
+    UserDto updateUser(UUID id, UserUpdateDto user);
+    void deleteUser(UUID id);
     void saveGoogleRefreshToken(String email, String refreshToken);
 }

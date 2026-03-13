@@ -6,6 +6,7 @@ import org.wa.auth.service.exception.UserNotFoundException;
 import org.wa.auth.service.model.User;
 import org.wa.auth.service.repository.UserRepository;
 import org.wa.auth.service.service.UserLookupService;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +36,7 @@ public class UserLookupServiceImpl implements UserLookupService {
     }
 
     @Override
-    public User findUserByExternalId(String externalId) {
+    public User findUserByExternalId(UUID externalId) {
         return userRepository.findByExternalId(externalId);
     }
 }

@@ -8,7 +8,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: external_id
-                  type: VARCHAR(50)
+                  type: UUID
                   constraints:
                     nullable: false
                     unique: true

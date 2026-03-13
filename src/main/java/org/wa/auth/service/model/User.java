@@ -42,7 +42,7 @@ public class User {
     private Long id;
 
     @Column(name = "external_id", nullable = false, unique = true, updatable = false)
-    private String externalId;
+    private UUID externalId;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -81,7 +81,7 @@ public class User {
         this.createdAt = OffsetDateTime.now(ZoneOffset.UTC);
         this.modifiedAt = OffsetDateTime.now(ZoneOffset.UTC);
         if (this.status == null) this.status = StatusEnum.PENDING;
-        if (externalId == null) this.externalId = UUID.randomUUID().toString();
+        if (externalId == null) this.externalId = UUID.randomUUID();
     }
 
     @PreUpdate

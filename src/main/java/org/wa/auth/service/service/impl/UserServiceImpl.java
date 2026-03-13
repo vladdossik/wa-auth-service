@@ -32,6 +32,7 @@ import java.time.Duration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -119,13 +120,13 @@ public class UserServiceImpl implements UserService {
                 });
     }
 
-    public UserDto getUserById(String externalId) {
+    public UserDto getUserById(UUID externalId) {
         User user = userLookupService.findUserByExternalId(externalId);
         return userMapper.toDto(user);
     }
 
     @Transactional
-    public UserDto updateUser(String externalId, UserUpdateDto dto) {
+    public UserDto updateUser(UUID externalId, UserUpdateDto dto) {
         userValidationService.validateUniqueUser(dto.getPhone(), dto.getEmail());
 
         User user = userLookupService.findUserByExternalId(externalId);
@@ -152,7 +153,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    public void deleteUser(String externalId) {
+    public void deleteUser(UUID externalId) {
         User user = userLookupService.findUserByExternalId(externalId);
         userRepository.delete(user);
     }

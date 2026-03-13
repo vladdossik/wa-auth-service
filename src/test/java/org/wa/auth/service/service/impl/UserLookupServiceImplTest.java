@@ -12,6 +12,7 @@ import org.wa.auth.service.repository.UserRepository;
 import org.wa.auth.service.util.Initializer;
 
 import java.util.Optional;
+import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -28,7 +29,7 @@ public class UserLookupServiceImplTest {
     private UserLookupServiceImpl userLookupService;
 
     private User user;
-    private String externalId;
+    private UUID externalId;
 
     @BeforeEach
     void setUp() {

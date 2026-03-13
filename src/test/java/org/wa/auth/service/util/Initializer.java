@@ -21,7 +21,7 @@ public class Initializer {
     public static User createUser() {
         User user = new User();
         user.setId(1L);
-        user.setExternalId(UUID.randomUUID().toString());
+        user.setExternalId(UUID.randomUUID());
         user.setEmail("test@test.com");
         user.setPhone("88007006050");
         user.setPassword("encoded123");
@@ -38,7 +38,7 @@ public class Initializer {
 
     public static UserDto createUserDto() {
         UserDto dto = new UserDto();
-        dto.setId(UUID.randomUUID().toString());
+        dto.setId(UUID.randomUUID());
         dto.setEmail("test@test.com");
         dto.setPhone("88007006050");
         dto.setRoles(Set.of(RoleEnum.USER));
@@ -109,7 +109,7 @@ public class Initializer {
     public static SyncServiceDto createSyncServiceDto() {
         SyncServiceDto dto = new SyncServiceDto();
 
-        dto.setId(UUID.randomUUID().toString());
+        dto.setId(UUID.randomUUID());
         dto.setEmail("test@test.com");
         dto.setGoogleRefreshToken("google");
 

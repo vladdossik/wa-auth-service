@@ -8,6 +8,7 @@ import org.wa.auth.service.model.StatusEnum;
 import org.wa.auth.service.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
@@ -20,5 +21,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Page<User> findUserByStatusAndGoogleRefreshTokenIsNotNull(StatusEnum status, @NonNull Pageable pageable);
 
-    User findByExternalId(String externalId);
+    User findByExternalId(UUID externalId);
 }
