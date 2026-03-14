@@ -12,7 +12,7 @@ import org.wa.auth.service.repository.UserRepository;
 import org.wa.auth.service.util.Initializer;
 
 import java.util.Optional;
-
+import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -29,10 +29,12 @@ public class UserLookupServiceImplTest {
     private UserLookupServiceImpl userLookupService;
 
     private User user;
+    private UUID externalId;
 
     @BeforeEach
     void setUp() {
         user = Initializer.createUser();
+        externalId = user.getExternalId();
     }
 
     @Test
@@ -91,5 +93,17 @@ public class UserLookupServiceImplTest {
 
         assertTrue(result);
         verify(userRepository).existsByEmail("test@test.com");
+    }
+
+    @Test
+    void findUserByExternalIdTest() {
+        when(userRepository.findByExternalId(externalId)).thenReturn(user);
+
+        User result = userLookupService.findUserByExternalId(externalId);
+
+        assertNotNull(result);
+        assertEquals(user.getEmail(), result.getEmail());
+        assertEquals(externalId, result.getExternalId());
+        verify(userRepository).findByExternalId(externalId);
     }
 }

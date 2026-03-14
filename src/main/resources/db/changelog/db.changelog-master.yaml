@@ -9,3 +9,5 @@ databaseChangeLog:
       file: db/changelog/2026.01.14/db.changelog-release.yaml
   - include:
       file: db/changelog/2026.02.05/db.changelog-release.yaml
+  - include:
+      file: db/changelog/2026.03.10/db.changelog-release.yaml

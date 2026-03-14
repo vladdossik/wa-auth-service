@@ -7,12 +7,13 @@ import org.wa.auth.service.model.RoleEnum;
 import org.wa.auth.service.model.StatusEnum;
 
 import java.util.Set;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
-    private Long id;
+    private UUID id;
     private String email;
     private String phone;
     private StatusEnum status;

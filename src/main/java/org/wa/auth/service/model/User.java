@@ -22,11 +22,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.JdbcType;
 import org.hibernate.dialect.PostgreSQLEnumJdbcType;
-
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Builder
@@ -40,6 +40,9 @@ public class User {
     @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
     private Long id;
+
+    @Column(name = "external_id", nullable = false, unique = true, updatable = false)
+    private UUID externalId;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -78,6 +81,7 @@ public class User {
         this.createdAt = OffsetDateTime.now(ZoneOffset.UTC);
         this.modifiedAt = OffsetDateTime.now(ZoneOffset.UTC);
         if (this.status == null) this.status = StatusEnum.PENDING;
+        if (externalId == null) this.externalId = UUID.randomUUID();
     }
 
     @PreUpdate
