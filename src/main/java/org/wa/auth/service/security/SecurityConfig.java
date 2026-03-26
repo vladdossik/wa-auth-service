@@ -31,6 +31,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/v1/auth/**").permitAll()
                         .requestMatchers("/v1/internal/sync/**").permitAll()
+                        .requestMatchers("/v1/admin/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/v1/users").permitAll()
                         .requestMatchers(HttpMethod.GET, "/v1/users/**").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.PUT, "/v1/users/**").hasAnyRole("ADMIN", "USER")
