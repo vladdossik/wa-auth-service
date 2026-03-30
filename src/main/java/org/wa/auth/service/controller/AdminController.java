@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.wa.auth.service.dto.AdminUserBlockResponse;
 import org.wa.auth.service.service.AdminService;
 
 import java.util.UUID;
@@ -16,17 +17,13 @@ import java.util.UUID;
 public class AdminController {
     private final AdminService adminService;
 
-    @PostMapping("/{id}/block")
-    public ResponseEntity<?> blockUser(@PathVariable("id") UUID id) {
-        adminService.blockUser(id);
-        String message = "User " + id + " blocked";
-        return ResponseEntity.ok(message);
+    @PostMapping("/block/{id}")
+    public ResponseEntity<AdminUserBlockResponse> blockUser(@PathVariable("id") UUID id) {
+        return ResponseEntity.ok(adminService.blockUser(id));
     }
 
-    @PostMapping("/{id}/unblock")
-    public ResponseEntity<?> unblockUser(@PathVariable("id") UUID id) {
-        adminService.unblockUser(id);
-        String message = "User " + id + " unblocked";
-        return ResponseEntity.ok(message);
+    @PostMapping("/unblock/{id}")
+    public ResponseEntity<AdminUserBlockResponse> unblockUser(@PathVariable("id") UUID id) {
+        return ResponseEntity.ok(adminService.unblockUser(id));
     }
 }

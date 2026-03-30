@@ -1,9 +1,13 @@
 package org.wa.auth.service.service;
 
+import org.wa.auth.service.dto.AdminUserBlockResponse;
+
 import java.util.UUID;
 
 public interface AdminService {
-    void blockUser(UUID externalId);
-    void unblockUser(UUID externalId);
-    boolean isBlocked(UUID externalId);
+    AdminUserBlockResponse blockUser(UUID externalId);
+
+    AdminUserBlockResponse unblockUser(UUID externalId);
+
+    boolean isUserBlocked(UUID externalId);
 }
