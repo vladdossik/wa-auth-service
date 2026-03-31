@@ -12,6 +12,12 @@ spring:
         spring.json.add.type.headers: false
     consumer:
       group-id: auth.service.group
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      connect-timeout: ${REDIS_TIMEOUT}
+
 
 jwt:
   secret:
